@@ -94,7 +94,22 @@ fun HidableInputLayout(
 
     LaunchedEffect(view) {
         val input = view ?: return@LaunchedEffect
+        // CLUB Z: en HyperOS/MIUI el teclado no salía (SHOW_IMPLICIT ignorado y el menú que se cierra roba el foco).
+        // Esperamos a que cierre el menú, pedimos el teclado con la API moderna y reintentamos si no aparece.
+        kotlinx.coroutines.delay(250)
         input.enableKeyboard()
+        repeat(4) {
+            kotlinx.coroutines.delay(300)
+            val visible = androidx.core.view.ViewCompat.getRootWindowInsets(input)
+                ?.isVisible(androidx.core.view.WindowInsetsCompat.Type.ime()) == true
+            if (visible) return@LaunchedEffect
+            input.requestFocus()
+            androidx.core.view.WindowCompat.getInsetsController(
+                (input.context as? android.app.Activity)?.window ?: return@LaunchedEffect, input
+            ).show(androidx.core.view.WindowInsetsCompat.Type.ime())
+            (input.context.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as? android.view.inputmethod.InputMethodManager)
+                ?.showSoftInput(input, android.view.inputmethod.InputMethodManager.SHOW_FORCED)
+        }
     }
 
     DisposableEffect(Unit) {

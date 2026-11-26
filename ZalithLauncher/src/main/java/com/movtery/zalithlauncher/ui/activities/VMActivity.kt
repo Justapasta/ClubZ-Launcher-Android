@@ -43,6 +43,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.Keep
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -579,6 +580,23 @@ class VMActivity : BaseAppCompatActivity(), SurfaceTextureListener {
                 val operation by vmViewModel.operation.collectAsStateWithLifecycle()
                 Screen(operation = operation) { layout ->
                     layout.session.handler.ComposableLayout(vmViewModel.textInputMode)
+
+                    // CLUB Z: botón fijo de teclado (para el chat, /register, /login, carteles)
+                    androidx.compose.foundation.layout.Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        androidx.compose.material3.Text(
+                            text = "⌨",
+                            color = androidx.compose.ui.graphics.Color.White,
+                            fontSize = androidx.compose.ui.unit.TextUnit(18f, androidx.compose.ui.unit.TextUnitType.Sp),
+                            modifier = Modifier
+                                .padding(top = 6.dp)
+                                .background(androidx.compose.ui.graphics.Color(0x8C140829), androidx.compose.foundation.shape.RoundedCornerShape(6.dp))
+                                .clickable { vmViewModel.textInputMode = vmViewModel.textInputMode.switch() }
+                                .padding(horizontal = 14.dp, vertical = 4.dp)
+                        )
+                    }
 
                     if (vmViewModel.textInputMode == TextInputMode.ENABLE) {
                         //输入栏控制区域
