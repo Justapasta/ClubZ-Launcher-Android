@@ -218,9 +218,9 @@ android {
 
     signingConfigs {
         create("releaseBuild") {
-            storeFile = file("zalith_launcher.jks")
+            storeFile = file("clubz_launcher.jks")   // Club Z: firma propia (el CI la saca del secreto KEYSTORE_B64)
             storePassword = getKeyFromLocal("STORE_PASSWORD", ".store_password.txt")
-            keyAlias = "movtery_zalith"
+            keyAlias = "clubz"
             keyPassword = getKeyFromLocal("KEY_PASSWORD", ".key_password.txt")
         }
         create("debugBuild") {
@@ -232,8 +232,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = zalithPackageName
-        applicationIdSuffix = ".v2"
+        applicationId = "com.clubz.launcher"   // Club Z: app distinta de Zalith (GPLv3 7c: nombre cambiado)
         minSdk = 26
         targetSdk = 34
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
