@@ -293,7 +293,7 @@ private fun rememberInclinacion(): Inclinacion {
             }
             override fun onAccuracyChanged(s: Sensor?, a: Int) {}
         }
-        if (sensor != null) sm.registerListener(oyente, sensor, SensorManager.SENSOR_DELAY_GAME)
+        if (sensor != null) sm?.registerListener(oyente, sensor, SensorManager.SENSOR_DELAY_GAME)
         onDispose { sm?.unregisterListener(oyente) }
     }
     return inc
