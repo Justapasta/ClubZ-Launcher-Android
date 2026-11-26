@@ -29,6 +29,12 @@ object ClubZ {
     const val VERSION = "Club Z"
     const val SERVIDOR = "194.163.149.70:25566"
     private const val PREFS = "clubz"
+    private const val MOBILEGLUES = "acaf8100-bbaf-4d68-b30d-38bf42fcd640"
+
+    private fun ramTotalMb(): Int = try {
+        File("/proc/meminfo").readLines().first { it.startsWith("MemTotal") }
+            .filter { it.isDigit() }.toLong().div(1024).toInt()
+    } catch (e: Exception) { -1 }
 
     fun revisar(activity: ComponentActivity, importador: ModpackImportViewModel) {
         activity.lifecycleScope.launch(Dispatchers.IO) {
@@ -76,6 +82,13 @@ object ClubZ {
         var cambio = false
         if (c.serverIp != servidor) { c.serverIp = servidor; cambio = true }
         if (!c.jvmArgs.contains("clubz.movil")) { c.jvmArgs = (c.jvmArgs + " -Dclubz.movil=true").trim(); cambio = true }
+        // Renderer MobileGlues fijo para la versión Club Z (con Krypton Wrapper la pantalla queda negra)
+        if (c.renderer != MOBILEGLUES) { c.renderer = MOBILEGLUES; cambio = true }
+        // RAM: el pack trae ~140 mods; mitad de la RAM del celular, entre 2 y 4 GB
+        if (c.ramAllocation < 2048) {
+            val total = ramTotalMb()
+            if (total > 0) { c.ramAllocation = (total / 2).coerceIn(2048, 4096); cambio = true }
+        }
         if (cambio) c.save()
         VersionsManager.saveCurrentVersion(VERSION)
     }

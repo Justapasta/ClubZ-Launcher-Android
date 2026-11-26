@@ -25,7 +25,8 @@ object RendererSettings : SettingsRegistry() {
     /**
      * 全局渲染器
      */
-    val renderer = stringSetting("renderer", "")
+    // CLUB Z: MobileGlues por defecto (Krypton Wrapper/GL4ES se queda en pantalla negra con NeoForge 1.21.1)
+    val renderer = stringSetting("renderer", "acaf8100-bbaf-4d68-b30d-38bf42fcd640")
 
     /**
      * 为渲染器插件叠加 SFPEW 兼容层
