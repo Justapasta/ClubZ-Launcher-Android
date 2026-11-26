@@ -106,7 +106,11 @@ class ModpackImportViewModel : ViewModel() {
 
     //等待用户输入版本名称相关
     private var versionNameContinuation: (Continuation<String>)? = null
+    /** Club Z: si está puesto, el importador usa este nombre sin preguntar. */
+    var nombreAutomatico: String? = null
+
     suspend fun waitForVersionName(name: String): String {
+        nombreAutomatico?.let { return it }
         return suspendCancellableCoroutine { cont ->
             versionNameContinuation = cont
             versionNameOperation = VersionNameOperation.Waiting(name)

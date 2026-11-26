@@ -226,12 +226,8 @@ class MainActivity : BaseAppCompatActivity() {
         //初始化通知管理（创建渠道）
         NotificationManager.initManager(this)
 
-        //检查更新
-        if (!isImporting && launcherUpgradeViewModel.operation == LauncherUpgradeOperation.None) {
-            lifecycleScope.launch {
-                launcherUpgradeViewModel.checkOnAppStart()
-            }
-        }
+        //Club Z: en vez de buscar actualizaciones de Zalith, instala/actualiza el modpack de Club Z
+        if (!isImporting) com.movtery.zalithlauncher.clubz.ClubZ.revisar(this, modpackImportViewModel)
 
         //拉取当月赞助者数据
         lifecycleScope.launch {
