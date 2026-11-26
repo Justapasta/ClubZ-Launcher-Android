@@ -165,9 +165,12 @@ fun MainScreen(
         backgroundColor().copy(alpha = launcherBackgroundOpacity)
     } else backgroundColor()
 
+    // CLUB Z: la escena del launcher de PC queda detrás de todo; fuera del inicio se ve oscurecida y quieta
+    Box(modifier = Modifier.fillMaxSize()) {
+    com.movtery.zalithlauncher.clubz.ui.ClubZEscena(animar = inLauncherScreen)
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = backgroundColor,
+        color = if (inLauncherScreen) Color.Transparent else com.movtery.zalithlauncher.clubz.ui.CZ.fondo.copy(alpha = 0.90f),
         contentColor = onBackgroundColor()
     ) {
         Column(
@@ -243,6 +246,7 @@ fun MainScreen(
                 }
             }
         }
+    }
     }
 }
 
@@ -341,7 +345,9 @@ private fun <E: TitledNavKey> TopBar(
                 val maxLines = 1
 
                 if (parent == null) {
-                    if (festivals.isEmpty()) {
+                    if (true) {
+                        com.movtery.zalithlauncher.clubz.ui.ClubZMarca()
+                    } else if (festivals.isEmpty()) {
                         Text(
                             text = BuildKeys.LAUNCHER_IDENTIFIER,
                             style = style,
@@ -417,7 +423,7 @@ private fun <E: TitledNavKey> TopBar(
                     )
                 }
 
-                TopBarRailItem(
+                if (false) TopBarRailItem(
                     selected = inMultiplayerScreen,
                     painter = painterResource(R.drawable.ic_group_filled),
                     text = stringResource(R.string.terracotta),
@@ -426,7 +432,7 @@ private fun <E: TitledNavKey> TopBar(
                     },
                 )
 
-                TopBarRailItem(
+                if (false) TopBarRailItem(
                     selected = inDownloadScreen,
                     painter = painterResource(R.drawable.ic_download_2_filled),
                     text = stringResource(R.string.generic_download),

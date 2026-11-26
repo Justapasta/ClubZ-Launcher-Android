@@ -617,7 +617,8 @@ fun ZalithLauncherTheme(
 
     val context = LocalContext.current
 
-    val targetColorScheme = remember(darkTheme, dynamicColor, colorTheme, customColor, customPaletteStyle) {
+    // CLUB Z: siempre los colores del launcher de PC (noche morada + verde lima)
+    val targetColorScheme = if (true) com.movtery.zalithlauncher.clubz.ui.clubZEsquema else remember(darkTheme, dynamicColor, colorTheme, customColor, customPaletteStyle) {
         when {
             dynamicColor && colorTheme == ColorThemeType.DYNAMIC && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
                 if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
@@ -683,7 +684,7 @@ fun ZalithLauncherTheme(
         MaterialExpressiveTheme(
             colorScheme = currentDisplayScheme,
             motionScheme = MotionScheme.expressive(),
-            typography = AppTypography,
+            typography = com.movtery.zalithlauncher.clubz.ui.clubZTipografia,
             content = content
         )
     }

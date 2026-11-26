@@ -52,7 +52,7 @@ object LauncherSettings : SettingsRegistry() {
     /**
      * 启动器UI深色主题
      */
-    val launcherDarkMode = enumSetting("launcherDarkMode", DarkMode.FollowSystem)
+    val launcherDarkMode = enumSetting("launcherDarkMode", DarkMode.Enable)   // Club Z: siempre oscuro
 
     /**
      * 启动器语言

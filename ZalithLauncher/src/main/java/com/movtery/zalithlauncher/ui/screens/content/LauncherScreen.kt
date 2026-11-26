@@ -136,14 +136,23 @@ fun LauncherScreen(
     startGuideOnce: (GuideKeys.Keys) -> Unit,
 ) {
     LaunchedEffect(Unit) {
-        //发起新手引导
-        startGuideOnce(GuideKeys.Main)
+        // CLUB Z: sin el tutorial de Zalith (sus tarjetas no están en nuestra pantalla principal)
     }
 
     BaseScreen(
         screenKey = NormalNavKey.LauncherMain,
         currentKey = backStackViewModel.mainScreen.currentKey
     ) { isVisible ->
+        // CLUB Z: pantalla principal propia (escena y tarjeta de juego como el launcher de PC)
+        com.movtery.zalithlauncher.clubz.ui.ClubZInicio(
+            onJugar = { onLaunchGame(null) },
+            onCuentas = {
+                backStackViewModel.mainScreen.navigateTo(screenKey = NormalNavKey.AccountManager(FirstLoginMenu.NONE))
+            },
+            onAjustesVersion = { VersionsManager.currentVersion.value?.let { navigateToVersions(it) } },
+            modifier = Modifier.animated(rememberAnimatedContext(isVisible = isVisible))
+        )
+        if (true) return@BaseScreen
         val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
         val dockedSide = LauncherSettings.launcherActionMenuSide.state
         val dragState = rememberActionMenuDragState(
